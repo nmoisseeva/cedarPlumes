@@ -1,10 +1,10 @@
 #!/bin/bash
 #=======input==========
 F=F3
-S=S400
+S=S200
 R=R2
 Wloop=(3 7)
-spinup=true
+spinup=false
 #======end of input====
 
 current=$(pwd)
