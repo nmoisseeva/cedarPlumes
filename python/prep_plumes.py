@@ -14,7 +14,7 @@ from matplotlib import animation
 import imp
 #====================INPUT===================
 loc_tag = [str(sys.argv[1])]
-do_animations = 1
+do_animations = 0
 #=================end of input===============
 
 import plume        #all our data
@@ -48,19 +48,26 @@ for nCase,Case in enumerate(loc_tag):
         print('WARNING: no interpolated data found - generating: SLOW ROUTINE!')
         wrfpath = plume.wrfdir + 'wrfout_' + Case
         wrfdata = netcdf.netcdf_file(wrfpath, mode ='r')
-        ncdict = wrf.extract_vars(wrfdata, None, ('GRNHFX','W','QVAPOR','T','PHB','PH','U','P','PB','V'))
+        ncdict = wrf.extract_vars(wrfdata, None, ('GRNHFX','W','QVAPOR','T','PHB','PH','U','P','PB','V','tr17_1'))
+        ncdict['PM25'] = ncdict.pop('tr17_1')
 
         #get height and destagger vars
         zstag = (ncdict['PHB'] + ncdict['PH'])//9.81
         z = wrf.destagger(zstag,1)
         u = wrf.destagger(ncdict['U'],3)
         w = wrf.destagger(ncdict['W'],1)
-
+        v = wrf.destagger(ncdict['V'],2)
+        
+        #list variables to interpolate
         nT,nZ,nY,nX = np.shape(z)
+
         qinterp = np.empty((nT,len(plume.lvl),nY,nX)) * np.nan
         winterp = np.empty((nT,len(plume.lvl),nY,nX)) * np.nan
         uinterp = np.empty((nT,len(plume.lvl),nY,nX)) * np.nan
         tinterp = np.empty((nT,len(plume.lvl),nY,nX)) * np.nan
+        vinterp = np.empty((nT,len(plume.lvl),nY,nX)) * np.nan
+        pminterp = np.empty((nT,len(plume.lvl),nY,nX)) * np.nan
+
         for t in range(nT):
             print('.... tsetp = %s/%s' %(t,nT))
             for y in range(nY):
@@ -70,12 +77,16 @@ for nCase,Case in enumerate(loc_tag):
                     ft = interpolate.interp1d(z_t,ncdict['T'][t,:,y,x],fill_value="extrapolate")
                     fw = interpolate.interp1d(z_t,w[t,:,y,x],fill_value="extrapolate")
                     fu = interpolate.interp1d(z_t,u[t,:,y,x],fill_value="extrapolate")
+                    fv = interpolate.interp1d(z_t,v[t,:,y,x],fill_value="extrapolate")
+                    fpm = interpolate.interp1d(z_t,ncduct['PM25'][t,:,y,x],fill_value="extrapolate")
                     qinterp[t,:,y,x] = fq(plume.lvl)
                     winterp[t,:,y,x] = fw(plume.lvl)
                     tinterp[t,:,y,x] = ft(plume.lvl)
                     uinterp[t,:,y,x] = fu(plume.lvl)
+                    vinterp[t,:,y,x] = fv(plume.lvl)
+                    pminterp[t,:,y,x] = fpm(plume.lvl)
                     #interpdict = {'QVAPOR': qinterp, 'W':winterp, 'T':tinterp, 'U':uinterp,'P':pinterp, 'V':vinterp}
-                    interpdict = {'QVAPOR': qinterp, 'W':winterp, 'T':tinterp, 'U':uinterp,'GRNHFX': ncdict['GRNHFX']}
+                    interpdict = {'QVAPOR': qinterp, 'W':winterp, 'T':tinterp, 'U':uinterp,'V':vinterp,'PM25':pminterp,'GRNHFX': ncdict['GRNHFX']}
         writefile = open(interppath, 'wb')
         pickle.dump(interpdict, writefile, protocol=4)
         writefile.close()
@@ -94,7 +105,7 @@ for nCase,Case in enumerate(loc_tag):
     print('Dimensions of data: %s x %s x %s:'%(dimt,dimy,dimx))
     xsx = int(round(dimy/2.))
 
-    var_list = ['ghfx','qvapor','temp','w','u']
+    var_list = ['ghfx','qvapor','temp','w','u','v','pm25']
     csdict = {}
 
     for variable in var_list:
@@ -102,9 +113,6 @@ for nCase,Case in enumerate(loc_tag):
         if variable == 'ghfx':
             slab = vars()[variable][:,xsx-plume.cs:xsx+plume.cs,:]
             csdict[variable] = np.mean(slab,1)
-        elif variable == 'qvapor':
-            slab = vars()[variable][:,:,xsx-plume.cs:xsx+plume.cs,:]
-            csdict[variable] = np.nansum(slab,2)   #using total, not average for vapour
         else:
             slab = vars()[variable][:,:,xsx-plume.cs:xsx+plume.cs,:]
             csdict[variable] = np.mean(slab,2)

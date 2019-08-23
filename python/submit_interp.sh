@@ -16,7 +16,7 @@ module load python
 module load scipy-stack
 source /home/moisseev/.vewrf/bin/activate
 
-python /home/moisseev/projects/rrg-rstull/moisseev/plume/mar18/python/prep_plumes.py $tag
+python /home/moisseev/projects/rrg-rstull/moisseev/plume/aug2019/python/prep_plumes.py $tag
 echo Completed $tag
 EOF
 	echo Submitting $tag for interpolation
