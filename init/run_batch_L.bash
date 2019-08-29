@@ -3,18 +3,19 @@
 F=F7
 S=S200
 R=R2
-Wloop=(3)
+Lloop=(1 2)
+W=W5
 spinup=false
 #======end of input====
 
 current=$(pwd)
-echo "Running wind set for $S,$F,$R:"
-for i in "${Wloop[@]}"
+echo "Running fireline length set for $W, $S,$F,$R:"
+for i in "${Lloop[@]}"
 do
-	echo "--WIND RUN: $i m/s"
+	echo "--FIRELINE LENGTH RUN: $i km"
 	#link main executables
 	if $spinup; then
-	        run=W$i$S$F${R}spinup
+	        run=$W$S$F${R}L${i}spinup
 	        echo ".....creating a run folder $run"
 	        mkdir -p ../runs/$run
 	        cd ../runs/$run
@@ -24,15 +25,15 @@ do
 
 		#link landuse and sounding
 		ln -s ../../init/landuse/LANDUSE.TBL_$F$R LANDUSE.TBL
-		ln -s ../../init/sounding/input_soundingW$i$R input_sounding
+		ln -s ../../init/sounding/input_sounding$W$R input_sounding
 		#link namelists
-	        ln -s ../../init/namelist/namelist.input$S${F}spinup namelist.input
+	        ln -s ../../init/namelist/namelist.input$S${F}L${i}spinup namelist.input
 		
 		#create slurm script and run
 		SLURMFILE="$run.sh"
 		/bin/cat <<EOF >$SLURMFILE
 #!/bin/bash
-#SBATCH -t 6:00:00
+#SBATCH -t 8:00:00
 #SBATCH --mem-per-cpu=4000M
 #SBATCH --nodes=1
 #SBATCH --ntasks=31
@@ -44,11 +45,11 @@ module load wrf-fire-1tracer
 mpirun -np 1 ideal.exe
 srun wrf.exe
 mv wrfout_* ../../complete/spinup/wrfout_$run
-mv wrfrst_d01_0000-08-01_12:30:00 ../../restart/wrfrst_d01_0000-08-01_12:30:00_W$i$S$F$R
+mv wrfrst_d01_0000-08-01_12:30:00 ../../restart/wrfrst_d01_0000-08-01_12:30:00_$W$S$F${R}L${i}
 EOF
 	else
 	
-              	run=W$i$S$F$R
+              	run=$W$S$F${R}L${i}
 	        echo ".....creating a run folder $run"
 		mkdir -p ../runs/$run
 		cd ../runs/$run
@@ -57,15 +58,15 @@ EOF
 		fi
 
 		#link restart file
-	        ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_W${i}S400$F$R wrfrst_d01_0000-08-01_12:30:00
+	        ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_${W}S400$F${R}L${i} wrfrst_d01_0000-08-01_12:30:00
 	        #link namelists
-	        ln -s ../../init/namelist/namelist.input${S}$F namelist.input
+	        ln -s ../../init/namelist/namelist.input${S}${F}L${i} namelist.input
 
                 #create slurm script and run
                 SLURMFILE="$run.sh"
                 /bin/cat <<EOF >$SLURMFILE
 #!/bin/bash
-#SBATCH -t 05:00:00
+#SBATCH -t 06:00:00
 #SBATCH --mem-per-cpu=4000M
 #SBATCH --nodes=1
 #SBATCH --ntasks=31

@@ -78,7 +78,7 @@ for nCase,Case in enumerate(loc_tag):
                     fw = interpolate.interp1d(z_t,w[t,:,y,x],fill_value="extrapolate")
                     fu = interpolate.interp1d(z_t,u[t,:,y,x],fill_value="extrapolate")
                     fv = interpolate.interp1d(z_t,v[t,:,y,x],fill_value="extrapolate")
-                    fpm = interpolate.interp1d(z_t,ncduct['PM25'][t,:,y,x],fill_value="extrapolate")
+                    fpm = interpolate.interp1d(z_t,ncdict['PM25'][t,:,y,x],fill_value="extrapolate")
                     qinterp[t,:,y,x] = fq(plume.lvl)
                     winterp[t,:,y,x] = fw(plume.lvl)
                     tinterp[t,:,y,x] = ft(plume.lvl)
@@ -99,13 +99,14 @@ for nCase,Case in enumerate(loc_tag):
     temp = interpdict['T']+300.             #add perturbation and base temperature
     w = interpdict['W']
     u = interpdict['U']
+    pm25 = interpdict['PM25']
 
     #get dimensions
     dimt, dimy, dimx = np.shape(ghfx)
     print('Dimensions of data: %s x %s x %s:'%(dimt,dimy,dimx))
     xsx = int(round(dimy/2.))
 
-    var_list = ['ghfx','qvapor','temp','w','u','v','pm25']
+    var_list = ['ghfx','qvapor','temp','w','u','pm25']
     csdict = {}
 
     for variable in var_list:

@@ -1,7 +1,7 @@
-tart/
 runs/
 slurm-*
 python/slurm/interp_W*
 python/figs/
 python/__pycache__/
 restart/
+complete/
