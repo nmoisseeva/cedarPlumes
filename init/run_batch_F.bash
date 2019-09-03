@@ -1,21 +1,19 @@
 #!/bin/bash
 #=======input==========
-#Floop=(4 6 7 9 10 12)
-Floop=(12 8)
-S=S400
-R=R0
-W=W4
+Floop=(1 2 3 4 5 6 7 8 9 10 11 12 13)
+R=R1
+W=W5
 spinup=true
 #======end of input====
 
 current=$(pwd)
-echo "Running fuel set for $S,$W,$R:"
+echo "Running wind set for $W,$R:"
 for i in "${Floop[@]}"
 do
-	echo "--FUEL RUN: $i category"
+	echo "--FUEL RUN: category $i "
 	#link main executables
 	if $spinup; then
-	        run=$W${S}F$i${R}spinup
+	        run=${W}F$i${R}spinup
 	        echo ".....creating a run folder $run"
 	        mkdir -p ../runs/$run
 	        cd ../runs/$run
@@ -24,35 +22,32 @@ do
 	        fi
 
 		#link landuse and sounding
-		ln -s ../../init/landuse/LANDUSE.TBL_F$i$R LANDUSE.TBL
+		ln -s ../../init/landuse/LANDUSE.TBL_F$i LANDUSE.TBL
 		ln -s ../../init/sounding/input_sounding$W$R input_sounding
 		#link namelists
-	        ln -s ../../init/namelist/namelist.input${S}F${i}spinup namelist.input
-                #link ideal
-		ln -s /home/moisseev/scratch/rxcadre/wrf-fire/WRFV3/main/ideal.exe ./
-	
-	        #create slurm script and run
-	        SLURMFILE="$run.sh"
-	        /bin/cat <<EOF >$SLURMFILE
+	        ln -s ../../init/namelist/namelist.inputF${i}spinup namelist.input
+		
+		#create slurm script and run
+		SLURMFILE="$run.sh"
+		/bin/cat <<EOF >$SLURMFILE
 #!/bin/bash
-#SBATCH -t 10:00:00
-#SBATCH --mem=10000M
+#SBATCH -t 8:00:00
+#SBATCH --mem-per-cpu=4000M
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=15
+#SBATCH --ntasks=31
 #SBATCH --account=rrg-rstull
 
-module load wrf-fire
-module load jasper
+module load  nixpkgs/16.09  intel/2016.4  openmpi/2.1.1
+module load wrf-fire-1tracer
 
-mpirun -np 1 ./ideal.exe
-srun ./wrf.exe
+mpirun -np 1 ideal.exe
+srun wrf.exe
 mv wrfout_* ../../complete/spinup/wrfout_$run
-mv wrfrst_d01_0000-08-01_12:30:00 ../../restart/wrfrst_d01_0000-08-01_12:30:00_$W${S}F$i$R
+mv wrfrst_d01_0000-08-01_12:30:00 ../../restart/wrfrst_d01_0000-08-01_12:30:00_${W}F$i$R
 EOF
-
-        else
+	else
 	
-              	run=$W${S}F$i${R}
+              	run=${W}F$i$R
 	        echo ".....creating a run folder $run"
 		mkdir -p ../runs/$run
 		cd ../runs/$run
@@ -61,34 +56,33 @@ EOF
 		fi
 
 		#link restart file
-	        ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_$W${S}F$i$R wrfrst_d01_0000-08-01_12:30:00
+	        ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_${W}F$i$R wrfrst_d01_0000-08-01_12:30:00
 	        #link namelists
-	        ln -s ../../init/namelist/namelist.input${S}F$i namelist.input
+	        ln -s ../../init/namelist/namelist.inputF$i namelist.input
 
-		#create slurm script and run
-	        SLURMFILE="$run.sh"
-	        /bin/cat <<EOF >$SLURMFILE
-
+                #create slurm script and run
+                SLURMFILE="$run.sh"
+                /bin/cat <<EOF >$SLURMFILE
 #!/bin/bash
-#SBATCH -t 07:00:00
-#SBATCH --mem=10000M
+#SBATCH -t 06:00:00
+#SBATCH --mem-per-cpu=4000M
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=15
+#SBATCH --ntasks=31
 #SBATCH --account=rrg-rstull
 
-module load wrf-fire
-module load jasper
+module load  nixpkgs/16.09  intel/2016.4  openmpi/2.1.1
+module load wrf-fire-1tracer
 
-srun ./wrf.exe
+srun wrf.exe
 mv wrfout_* ../../complete/wrfout_$run
 EOF
 	fi
 
 	#link common files	
-	ln -s /home/moisseev/scratch/rxcadre/wrf-fire/WRFV3/main/wrf.exe ./
 	ln -s ../../init/namelist/namelist.fire namelist.fire
-	
-	#ln -s ../../init/slurm/$run.sh .
+	ln -s ../../init/namelist/namelist.fire_emissions ./
+
+	#link slurm script and run
 	echo ".....submitting job to slurm"
 	sbatch $run.sh
 	cd $current
