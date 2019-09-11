@@ -61,7 +61,7 @@ for nCase,Case in enumerate(loc_tag):
         #list variables to interpolate
         nT,nZ,nY,nX = np.shape(z)
 
-        qinterp = np.empty((nT,len(plume.lvl),nY,nX)) * np.nan
+        #qinterp = np.empty((nT,len(plume.lvl),nY,nX)) * np.nan
         winterp = np.empty((nT,len(plume.lvl),nY,nX)) * np.nan
         uinterp = np.empty((nT,len(plume.lvl),nY,nX)) * np.nan
         tinterp = np.empty((nT,len(plume.lvl),nY,nX)) * np.nan
@@ -73,20 +73,20 @@ for nCase,Case in enumerate(loc_tag):
             for y in range(nY):
                 for x in range(nX):
                     z_t = z[t,:,y,x]
-                    fq = interpolate.interp1d(z_t,ncdict['QVAPOR'][t,:,y,x],fill_value="extrapolate")
+                    #fq = interpolate.interp1d(z_t,ncdict['QVAPOR'][t,:,y,x],fill_value="extrapolate")
                     ft = interpolate.interp1d(z_t,ncdict['T'][t,:,y,x],fill_value="extrapolate")
                     fw = interpolate.interp1d(z_t,w[t,:,y,x],fill_value="extrapolate")
                     fu = interpolate.interp1d(z_t,u[t,:,y,x],fill_value="extrapolate")
                     fv = interpolate.interp1d(z_t,v[t,:,y,x],fill_value="extrapolate")
                     fpm = interpolate.interp1d(z_t,ncdict['PM25'][t,:,y,x],fill_value="extrapolate")
-                    qinterp[t,:,y,x] = fq(plume.lvl)
+                    #qinterp[t,:,y,x] = fq(plume.lvl)
                     winterp[t,:,y,x] = fw(plume.lvl)
                     tinterp[t,:,y,x] = ft(plume.lvl)
                     uinterp[t,:,y,x] = fu(plume.lvl)
                     vinterp[t,:,y,x] = fv(plume.lvl)
                     pminterp[t,:,y,x] = fpm(plume.lvl)
                     #interpdict = {'QVAPOR': qinterp, 'W':winterp, 'T':tinterp, 'U':uinterp,'P':pinterp, 'V':vinterp}
-                    interpdict = {'QVAPOR': qinterp, 'W':winterp, 'T':tinterp, 'U':uinterp,'V':vinterp,'PM25':pminterp,'GRNHFX': ncdict['GRNHFX']}
+                    interpdict = {'W':winterp, 'T':tinterp, 'U':uinterp,'V':vinterp,'PM25':pminterp,'GRNHFX': ncdict['GRNHFX']}
         writefile = open(interppath, 'wb')
         pickle.dump(interpdict, writefile, protocol=4)
         writefile.close()
@@ -95,7 +95,7 @@ for nCase,Case in enumerate(loc_tag):
 
     #convert and average data-----------------------------------
     ghfx = interpdict['GRNHFX']/1000.             #convert to kW
-    qvapor = interpdict['QVAPOR']*1000.        #convert to g/kg
+    #qvapor = interpdict['QVAPOR']*1000.        #convert to g/kg
     temp = interpdict['T']+300.             #add perturbation and base temperature
     w = interpdict['W']
     u = interpdict['U']
@@ -106,7 +106,7 @@ for nCase,Case in enumerate(loc_tag):
     print('Dimensions of data: %s x %s x %s:'%(dimt,dimy,dimx))
     xsx = int(round(dimy/2.))
 
-    var_list = ['ghfx','qvapor','temp','w','u','pm25']
+    var_list = ['ghfx','temp','w','u','pm25']
     csdict = {}
 
     for variable in var_list:

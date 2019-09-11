@@ -4,7 +4,7 @@ InputFile=input_sounding
 BaseVal=3.00
 LoopVar=(4 5 6 7 8 9 10 11 12)
 W=W3
-R=R1
+R=R2
 #======end of input====
 
 current=$(pwd)
