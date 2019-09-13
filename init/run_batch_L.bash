@@ -4,7 +4,7 @@ F=F7
 R=R2
 Lloop=(410km)
 W=W5
-spinup=true
+spinup=false
 #======end of input====
 
 current=$(pwd)

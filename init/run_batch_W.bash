@@ -1,9 +1,9 @@
 #!/bin/bash
 #=======input==========
-F=F7
-R=R0
-Wloop=(3 7 8)
-spinup=false
+F=F6
+R=R3
+Wloop=(3 4 6 7 8 9 10 11 12)
+spinup=true
 #======end of input====
 
 current=$(pwd)
