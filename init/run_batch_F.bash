@@ -3,7 +3,7 @@
 Floop=(1 2 3 4 5 6 7 8 9 10 11 12 13)
 R=R3
 W=W5
-spinup=true
+spinup=false
 #======end of input====
 
 current=$(pwd)
@@ -68,7 +68,7 @@ EOF
 #SBATCH --mem-per-cpu=4000M
 #SBATCH --nodes=1
 #SBATCH --ntasks=31
-#SBATCH --account=rrg-rstull
+#SBATCH --account=def-rstull
 
 module load  nixpkgs/16.09  intel/2016.4  openmpi/2.1.1
 module load wrf-fire-1tracer
