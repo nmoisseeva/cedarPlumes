@@ -13,7 +13,7 @@ lvl = np.arange(0,2800,40)         #vertical levels in m
 dx = 40.                        #horizontal grid spacing
 
 cs = 10                         #+/- grids for cross-section
-wi, wf = 10,90 
+wi, wf= 20,170 
 
 ign_over = 7                    #number of history intervals until igntion completion (ceil(95sec / 15sec))
 
