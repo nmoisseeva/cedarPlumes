@@ -95,7 +95,7 @@
  moist_adv_opt                       = 1,   
  scalar_adv_opt                      = 1,  
  w_damping                           = 0,
- tke_heat_flux			     = 0.3, !H/(rho*Cp) where H = Sensible heat flux , rho is air density (~ 1.2), and Cp (~ 1005)
+ tke_heat_flux			     = 0.13, !H/(rho*Cp) where H = Sensible heat flux , rho is air density (~ 1.2), and Cp (~ 1005)
  tracer_opt                          = 2, 
 /
 
@@ -134,18 +134,18 @@
  fire_ignition_ros1 = 0.1,        ! rate of spread during ignition, m/s  
 
 ! start points of ignition lines, in m from lower left corner
- fire_ignition_start_x1 =   800.,     
- fire_ignition_start_y1 =   2500.,    
+ fire_ignition_start_x1 =   1000.,     
+ fire_ignition_start_y1 =   2000.,    
 
 ! end points of ignition lines, in m from lower left corner
- fire_ignition_end_x1 = 800.,     
- fire_ignition_end_y1 = 3500.,     
+ fire_ignition_end_x1 = 1000.,     
+ fire_ignition_end_y1 = 4000.,     
 
 ! all within this radius will ignite, > fire mesh step
  fire_ignition_radius1 =    10,     
 
- fire_ignition_start_time1 = 1805.,    ! sec for ignition from the start
- fire_ignition_end_time1  =1900.,     ! sec for ignition from the start
+ fire_ignition_start_time1 = 1810.,    ! sec for ignition from the start
+ fire_ignition_end_time1  =1870.,     ! sec for ignition from the start
 
 ! stretched grid variables
 stretch_grd = .true.,
