@@ -11,6 +11,8 @@ do
 #SBATCH --mem-per-cpu=128000M
 #SBATCH -n 1
 #SBATCH --account=rrg-rstull
+#SBATCH --job-name=$tag
+#SBATCH --output=%x.out
 
 module load python
 module load scipy-stack

@@ -1,7 +1,7 @@
 #!/bin/bash
 #=======input==========
-F=F6
-R=R4
+F=F7
+R=R0
 Wloop=(3 4 6 7 8 9 10 11 12)
 spinup=false
 #======end of input====
@@ -35,7 +35,9 @@ do
 #SBATCH --mem-per-cpu=4000M
 #SBATCH --nodes=1
 #SBATCH --ntasks=31
-#SBATCH --account=def-rstull
+#SBATCH --account=rrg-rstull
+#SBATCH --job-name=$run
+#SBATCH --output=%x-%j.out
 
 module load  nixpkgs/16.09  intel/2016.4  openmpi/2.1.1
 module load wrf-fire-1tracer
@@ -68,7 +70,9 @@ EOF
 #SBATCH --mem-per-cpu=4000M
 #SBATCH --nodes=1
 #SBATCH --ntasks=31
-#SBATCH --account=def-rstull
+#SBATCH --account=rrg-rstull
+#SBATCH --job-name=$run
+#SBATCH --output=%x-%j.out
 
 module load  nixpkgs/16.09  intel/2016.4  openmpi/2.1.1
 module load wrf-fire-1tracer

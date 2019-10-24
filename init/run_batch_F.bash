@@ -1,7 +1,7 @@
 #!/bin/bash
 #=======input==========
 Floop=(1 2 3 4 5 6 7 8 9 10 11 12 13)
-R=R3
+R=R0
 W=W5
 spinup=false
 #======end of input====
@@ -36,6 +36,8 @@ do
 #SBATCH --nodes=1
 #SBATCH --ntasks=31
 #SBATCH --account=rrg-rstull
+#SBATCH --job-name=$run
+#SBATCH --output=%x-%j.out
 
 module load  nixpkgs/16.09  intel/2016.4  openmpi/2.1.1
 module load wrf-fire-1tracer
@@ -69,6 +71,8 @@ EOF
 #SBATCH --nodes=1
 #SBATCH --ntasks=31
 #SBATCH --account=def-rstull
+#SBATCH --job-name=$run
+#SBATCH --output=%x-%j.out
 
 module load  nixpkgs/16.09  intel/2016.4  openmpi/2.1.1
 module load wrf-fire-1tracer

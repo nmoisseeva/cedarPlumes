@@ -117,7 +117,7 @@ for nCase,Case in enumerate(loc_tag):
         else:
             slab = vars()[variable][:,:,xsx-plume.cs:xsx+plume.cs,:]
             csdict[variable] = np.mean(slab,2)
-
+    csdict['ghfx2D'] = ghfx
 
     #create time-average around peak flux--------------------------
     xmax = np.argmax(csdict['ghfx'],axis=1)
