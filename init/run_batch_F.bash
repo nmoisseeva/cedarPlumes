@@ -1,9 +1,9 @@
 #!/bin/bash
 #=======input==========
 Floop=(1 2 3 4 5 6 7 8 9 10 11 12 13)
-R=R0
+R=R4
 W=W5
-spinup=false
+spinup=true
 #======end of input====
 
 current=$(pwd)
@@ -31,7 +31,7 @@ do
 		SLURMFILE="$run.sh"
 		/bin/cat <<EOF >$SLURMFILE
 #!/bin/bash
-#SBATCH -t 8:00:00
+#SBATCH -t 12:00:00
 #SBATCH --mem-per-cpu=4000M
 #SBATCH --nodes=1
 #SBATCH --ntasks=31
@@ -66,11 +66,11 @@ EOF
                 SLURMFILE="$run.sh"
                 /bin/cat <<EOF >$SLURMFILE
 #!/bin/bash
-#SBATCH -t 06:00:00
+#SBATCH -t 10:00:00
 #SBATCH --mem-per-cpu=4000M
 #SBATCH --nodes=1
 #SBATCH --ntasks=31
-#SBATCH --account=def-rstull
+#SBATCH --account=rrg-rstull
 #SBATCH --job-name=$run
 #SBATCH --output=%x-%j.out
 

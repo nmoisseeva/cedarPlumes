@@ -2,9 +2,9 @@
 #=======input==========
 F=F7
 R=R2
-Lloop=(410km)
+Lloop=(L3 410km)
 W=W5
-spinup=false
+spinup=true
 #======end of input====
 
 current=$(pwd)
