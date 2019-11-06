@@ -12,10 +12,10 @@ figdir = './figs/'
 lvl = np.arange(0,2800,40)         #vertical levels in m
 dx = 40.                        #horizontal grid spacing
 
-cs = 20                         #+/- grids for cross-section
+cs = 10                         #+/- grids for cross-section
 wi, wf= 20,230 
 
-ign_over = 40                    #number of history intervals to skip from beginning: 10min (600/15sec) or ignition (ceil(95sec / 15sec))
+ign_over = 20                    #number of history intervals to skip from beginning: 10min (600/15sec) or ignition (ceil(95sec / 15sec))
 
 # dirlist = os.listdir(wrfdir+'interp/')     #get all files in directory
 dirpath = wrfdir+'interp/wrfinterp_*'

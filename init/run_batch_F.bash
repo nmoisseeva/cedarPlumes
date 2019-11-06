@@ -1,9 +1,9 @@
 #!/bin/bash
 #=======input==========
 Floop=(1 2 3 4 5 6 7 8 9 10 11 12 13)
-R=R4
+R=R0
 W=W5
-spinup=true
+spinup=false
 #======end of input====
 
 current=$(pwd)
