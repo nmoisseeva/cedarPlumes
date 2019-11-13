@@ -2,8 +2,9 @@
 #=======input==========
 F=F7
 R=R0
-Wloop=(3 4 6 7 8 9 10 11 12)
-spinup=false
+#Wloop=(3 4 6 7 8 9 10 11 12)
+Wloop=(12)
+spinup=true
 #======end of input====
 
 current=$(pwd)
@@ -21,9 +22,10 @@ do
 	                rm *
 	        fi
 
-		#link landuse and sounding
+		#link landuse, perturbed surface and sounding
 		ln -s ../../init/landuse/LANDUSE.TBL_$F LANDUSE.TBL
 		ln -s ../../init/sounding/input_soundingW$i$R input_sounding
+		ln -s ../../init/surface/input_tsk$R input_tsk
 		#link namelists
 	        ln -s ../../init/namelist/namelist.input${F}spinup namelist.input
 		

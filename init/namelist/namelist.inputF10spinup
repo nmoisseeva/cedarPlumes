@@ -95,7 +95,7 @@
  moist_adv_opt                       = 1,   
  scalar_adv_opt                      = 1,  
  w_damping                           = 0,
- tke_heat_flux			     = 0.13, !H/(rho*Cp) where H = Sensible heat flux , rho is air density (~ 1.2), and Cp (~ 1005)
+ tke_heat_flux			     = 0.2, !H/(rho*Cp) where H = Sensible heat flux , rho is air density (~ 1.2), and Cp (~ 1005)
  tracer_opt                          = 2, 
 /
 
@@ -171,7 +171,7 @@ z_grd_scale = 1.5,
  fire_mountain_end_x=3250.,     ! (m) coord of end of the mountain from lower left corner (just like ignition)
  fire_mountain_end_y=3250.,     ! (m) coord of end of the mountain from lower left corner (just like ignition)
  fire_topo_from_atm=0,          ! 0 = fire mesh topo set from fine-res data, 1 = populate by interpolating from atmosphere
- delt_perturbation = 10,       ! Temperature perturbation for creating cold (negative) / warm (positive) bubble [K], 0 turns it off
+ delt_perturbation = 0,       ! Temperature perturbation for creating cold (negative) / warm (positive) bubble [K], 0 turns it off
  xrad_perturbation = 50.,   ! Horizontal radius of the bubble in E-W direction [m]
  yrad_perturbation = 50.,   ! Horizontal radius of the bubble in N-S direction [m]
  zrad_perturbation = 50.,    ! Vertical radius of the bubble [m]
@@ -182,7 +182,7 @@ z_grd_scale = 1.5,
  sfc_lu_index = 29,             ! Defines USGS surface category used for surface initialization based on LANDUSE.TBL (roughness, albedo etc)
  sfc_tsk = 300.0,                ! Skin surface temperature [K]
  sfc_tmn = 290.0,                ! Mean soil temperature [K]
-
+ fire_read_tsk = .true.,        ! read surface temeprature from file input_tsk
 
 ! method switches for developers only, do not change!
  fire_boundary_guard = -1,      ! integer, number of cells to stop when fire close to the domain boundary, -1 turn off

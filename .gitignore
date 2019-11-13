@@ -5,3 +5,4 @@ python/figs/
 python/__pycache__/
 restart/
 complete/
+*.out

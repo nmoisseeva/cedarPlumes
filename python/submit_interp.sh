@@ -7,7 +7,7 @@ do
 
 	/bin/cat <<EOF >$FILE
 #!/bin/bash
-#SBATCH -t 03:00:00
+#SBATCH -t 01:40:00
 #SBATCH --mem-per-cpu=128000M
 #SBATCH -n 1
 #SBATCH --account=rrg-rstull

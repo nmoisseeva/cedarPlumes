@@ -21,9 +21,10 @@ do
 	                rm *
 	        fi
 
-		#link landuse and sounding
+		#link surface and sounding
 		ln -s ../../init/landuse/LANDUSE.TBL_F$i LANDUSE.TBL
 		ln -s ../../init/sounding/input_sounding$W$R input_sounding
+		ln -s ../../init/surface/input_tsk$R input_tsk
 		#link namelists
 	        ln -s ../../init/namelist/namelist.inputF${i}spinup namelist.input
 		
