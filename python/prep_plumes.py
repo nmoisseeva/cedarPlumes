@@ -14,10 +14,9 @@ from matplotlib import animation
 import imp
 #====================INPUT===================
 loc_tag = [str(sys.argv[1])]
-do_animations = 0
 #=================end of input===============
-
 import plume        #all our data
+
 #====================INPUT===================
 #all common variables are stored separately
 imp.reload(plume)     #force load each time
@@ -95,7 +94,6 @@ for nCase,Case in enumerate(loc_tag):
 
     #convert and average data-----------------------------------
     ghfx = interpdict['GRNHFX']/1000.             #convert to kW
-    #qvapor = interpdict['QVAPOR']*1000.        #convert to g/kg
     temp = interpdict['T']+300.             #add perturbation and base temperature
     w = interpdict['W']
     u = interpdict['U']
@@ -114,6 +112,9 @@ for nCase,Case in enumerate(loc_tag):
         if variable == 'ghfx':
             slab = vars()[variable][:,xsx-plume.cs:xsx+plume.cs,:]
             csdict[variable] = np.mean(slab,1)
+        elif variable == 'pm25':   
+            slab = vars()[variable]
+            csdict[variable] = np.sum(slab,2)   #tracers calculated as cross-wind intergrated totals
         else:
             slab = vars()[variable][:,:,xsx-plume.cs:xsx+plume.cs,:]
             csdict[variable] = np.mean(slab,2)
@@ -143,57 +144,3 @@ for nCase,Case in enumerate(loc_tag):
     np.save(cspath,csdict)
     print('Crosssection data saved as: %s' %cspath)
 
-    if do_animations:
-         #--------------- animation of vertical velocity contours and water vapor-----------------------
-        print('.....creating vertical crossection of W + H2O animation')
-        fig = plt.figure(figsize=(6,6))
-        ax = plt.gca()
-        # create initial frame
-        # ---w contours and colorbar
-        cntrf = ax.contourf(csdict['w'][0,:,:], cmap=plt.cm.PRGn_r, levels=np.arange(-7,7.1,0.5))
-        cbarf = fig.colorbar(cntrf, orientation='horizontal',fraction=0.046, pad=0.1)
-        cbarf.set_label('vertical velocity $[m s^{-2}]$')
-        ax.set_xlabel('x grid (#)')
-        ax.set_ylabel('height AGL [m]')
-        ax.set_xlim([0,dimx])
-        # ---non-filled vapor contours and colorbar
-        cntr = ax.contour(csdict['qvapor'][0,:,:], cmap=plt.cm.Greys,levels=np.arange(0,2.1,0.3),linewidths=2)
-        # ains = inset_axes(plt.gca(), width='40%', height='2%', loc=1)
-        # cbar = fig.colorbar(cntr, cax=ains, orientation='horizontal')
-        # cbar = fig.colorbar(cntr,  orientation='horizontal')
-        # cbar.set_label('$H_2O$ mixing ratio $[g kg^{-1}]$',size=8)
-        # cbar.ax.tick_params(labelsize=8)
-        # ---heat flux
-        axh = ax.twinx()
-        axh.set_ylabel('ground heat flux $[kW m^{-2}]$', color='r')
-        axh.set_ylim([0,140])
-        axh.set_xlim([0,dimx])
-        axh.tick_params(axis='y', colors='red')
-        ln = axh.plot(csdict['qvapor'][0,:], 'r-')
-
-        def update_plot(n,csdict,cntrf,cntr):
-            ax.clear()
-            cntrf = ax.contourf(csdict['w'][n,:,:],cmap=plt.cm.PRGn_r, levels=np.arange(-7,7.1,0.5),extend='both')
-            cntr = ax.contour(csdict['qvapor'][n,:,:], cmap=plt.cm.Greys,levels=np.arange(0,2.1,0.3),linewidths=0.6)
-            ax.set_xlabel('x grid (#)')
-            ax.set_ylabel('height AGL [m]')
-            ax.set_yticks(np.arange(0,len(plume.lvl),10))
-            ax.set_yticklabels(plume.lvl[::10])
-            axh.clear()
-            axh.set_ylim([0,140])
-            axh.set_xlim([0,dimx])
-            ln = axh.plot(csdict['ghfx'][n,:], 'r-')
-            axh.set_ylabel('ground heat flux $[kW m^{-2}]$', color='r')
-            # time_text.set_text('Time (sec) = %s' %(n*dt))
-            return cntrf, ln, cntr,
-
-        #plot all frames
-        ani=animation.FuncAnimation(fig, update_plot, dimt, fargs=(csdict,cntrf,cntr), interval=3)
-        ani.save(plume.figdir + 'anim/w/%s.mp4' %Case, writer='ffmpeg',fps=10, dpi=250)
-        plt.close()
-        print('.....saved in: %s' %(plume.figdir + 'anim/w/%s.mp4' %Case))
-
-    #writefile = open(interppath, 'wb')
-    #pickle.dump(interpdict, writefile, protocol=4)
-    #writefile.close()
-    #print('Interpolated data saved as: %s' %interppath)

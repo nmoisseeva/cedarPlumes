@@ -1,24 +1,24 @@
  &time_control
  run_days                            = 0,
  run_hours                           = 0,
- run_minutes                         = 30,
- run_seconds                         = 10,
+ run_minutes                         = 60,
+ run_seconds                         = 1,
  start_year                          = 0000, 
  start_month                         = 08, 
  start_day                           = 01, 
- start_hour                          = 12,
- start_minute                        = 00,
+ start_hour                          = 11,
+ start_minute                        = 30,
  start_second                        = 00,
  end_year                            = 0000, 
  end_month                           = 08,
  end_day                             = 01, 
  end_hour                            = 12, 
  end_minute                          = 30,
- end_second                          = 10,
- history_interval_s                  = 60,
+ end_second                          = 01,
+ history_interval_s                  = 120,
  frames_per_outfile                  = 400,
  restart                             = .false.,
- restart_interval 		     = 30, 
+ restart_interval 		     = 60, 
  io_form_history                     = 2,
  io_form_restart                     = 2,
  io_form_input                       = 2,
@@ -144,8 +144,8 @@
 ! all within this radius will ignite, > fire mesh step
  fire_ignition_radius1 =    10,     
 
- fire_ignition_start_time1 = 1810.,    ! sec for ignition from the start
- fire_ignition_end_time1  =1870.,     ! sec for ignition from the start
+ fire_ignition_start_time1 = 3610.,    ! sec for ignition from the start
+ fire_ignition_end_time1  =3670.,     ! sec for ignition from the start
 
 ! stretched grid variables
 stretch_grd = .true.,
