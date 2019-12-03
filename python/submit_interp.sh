@@ -1,8 +1,10 @@
 #!/bin/bash
 
-for Case in $( ls -p ../complete/. | grep -v / ) 
+#for Case in $( ls -p ../complete/. | grep -v / )
+for Case in $( ls ../complete/*W5*R0 )
 do
-	tag=${Case:7}
+	tag=${Case:19}
+	echo $tag
 	FILE="./slurm/interp_$tag.sh"
 
 	/bin/cat <<EOF >$FILE

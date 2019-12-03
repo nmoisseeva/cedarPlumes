@@ -22,6 +22,9 @@ dirpath = wrfdir+'interp/wrfinterp_*'
 dirlist = glob.glob(dirpath) #get all  interp files in directory
 tag = [i[len(dirpath)-1:-4] for i in dirlist]    #W*S*F*R0
 
+#lists of rns
+fireline_runs = ['W4F7R4L1','W4F7R4','W4F7R4L4']
+
 #common functions
 #--------------------------------
 #tag reading function read_tag(variable type, string array)
