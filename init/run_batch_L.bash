@@ -1,10 +1,10 @@
 #!/bin/bash
 #=======input==========
 F=F7
-R=R2
-Lloop=(L3 410km)
-W=W5
-spinup=true
+R=R4
+Lloop=(1 4)
+W=W4
+spinup=false
 #======end of input====
 
 current=$(pwd)
@@ -38,6 +38,8 @@ do
 #SBATCH --nodes=1
 #SBATCH --ntasks=31
 #SBATCH --account=rrg-rstull
+#SBATCH --job-name=$run
+#SBATCH --output=%x-%j.out
 
 module load  nixpkgs/16.09  intel/2016.4  openmpi/2.1.1
 module load wrf-fire-1tracer
@@ -58,8 +60,9 @@ EOF
 		fi
 
 		#link restart file
-	        ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_$W$F${R}L$i wrfrst_d01_0000-08-01_12:30:00
-	        #link namelists
+	        #ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_$W$F${R}L$i wrfrst_d01_0000-08-01_12:30:00
+	        ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_$W$F${R} wrfrst_d01_0000-08-01_12:30:00
+	       	#link namelists
 	        ln -s ../../init/namelist/namelist.input${F}L$i namelist.input
 
                 #create slurm script and run
@@ -71,6 +74,8 @@ EOF
 #SBATCH --nodes=1
 #SBATCH --ntasks=31
 #SBATCH --account=rrg-rstull
+#SBATCH --job-name=$run
+#SBATCH --output=%x-%j.out
 
 module load  nixpkgs/16.09  intel/2016.4  openmpi/2.1.1
 module load wrf-fire-1tracer

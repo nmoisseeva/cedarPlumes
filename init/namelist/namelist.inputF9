@@ -143,8 +143,8 @@
 ! all within this radius will ignite, > fire mesh step
  fire_ignition_radius1 =    10,     
 
- fire_ignition_start_time1 = 1810.,    ! sec for ignition from the start
- fire_ignition_end_time1  =1870.,     ! sec for ignition from the start
+ fire_ignition_start_time1 = 3610.,    ! sec for ignition from the start
+ fire_ignition_end_time1  =3670.,     ! sec for ignition from the start
 
 ! stretched grid variables
 stretch_grd = .true.,

@@ -2,9 +2,9 @@
 #=======input==========
 F=F7
 R=R0
-#Wloop=(3 4 6 7 8 9 10 11 12)
-Wloop=(12)
-spinup=true
+Wloop=(3 4 6 7 8 9 10 11)
+#Wloop=(12)
+spinup=false
 #======end of input====
 
 current=$(pwd)
@@ -33,11 +33,11 @@ do
 		SLURMFILE="$run.sh"
 		/bin/cat <<EOF >$SLURMFILE
 #!/bin/bash
-#SBATCH -t 12:00:00
+#SBATCH -t 23:00:00
 #SBATCH --mem-per-cpu=4000M
 #SBATCH --nodes=1
 #SBATCH --ntasks=31
-#SBATCH --account=rrg-rstull
+#SBATCH --account=def-rstull
 #SBATCH --job-name=$run
 #SBATCH --output=%x-%j.out
 

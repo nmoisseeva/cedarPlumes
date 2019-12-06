@@ -47,7 +47,7 @@ for nCase,Case in enumerate(loc_tag):
         print('WARNING: no interpolated data found - generating: SLOW ROUTINE!')
         wrfpath = plume.wrfdir + 'wrfout_' + Case
         wrfdata = netcdf.netcdf_file(wrfpath, mode ='r')
-        ncdict = wrf.extract_vars(wrfdata, None, ('GRNHFX','W','QVAPOR','T','PHB','PH','U','P','PB','V','tr17_1'))
+        ncdict = wrf.extract_vars(wrfdata, None, ('GRNHFX','W','QVAPOR','T','PHB','PH','U','P','PB','V','tr17_1'),meta=False)
         ncdict['PM25'] = ncdict.pop('tr17_1')
 
         #get height and destagger vars
