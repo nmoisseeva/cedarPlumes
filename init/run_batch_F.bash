@@ -1,7 +1,7 @@
 #!/bin/bash
 #=======input==========
 Floop=(1 2 3 4 5 6 7 8 9 10 11 12 13)
-R=R1
+R=R3
 W=W5
 spinup=false
 #======end of input====
