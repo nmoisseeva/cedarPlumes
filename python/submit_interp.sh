@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #for Case in $( ls -p ../complete/. | grep -v / )
-for Case in $( ls ../complete/*W5*R2 )
+for Case in $( ls ../complete/*W4F7R4L4 )
 do
 	tag=${Case:19}
 	echo $tag

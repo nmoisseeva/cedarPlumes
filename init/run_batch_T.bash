@@ -1,19 +1,19 @@
 #!/bin/bash
 #=======input==========
-Floop=(5 6 8 9 10 11 12 13)
-R=R4
+Floop=(4 7 13)
+R=R5
 W=W5
-spinup=false
+spinup=true
 #======end of input====
 
 current=$(pwd)
-echo "Running wind set for $W,$R:"
+echo "Running tall domain set for $W, $R:"
 for i in "${Floop[@]}"
 do
-	echo "--FUEL RUN: category $i "
+	echo "--FUEL RUN: $i"
 	#link main executables
 	if $spinup; then
-	        run=${W}F$i${R}spinup
+	        run=${W}F$i${R}Tspinup
 	        echo ".....creating a run folder $run"
 	        mkdir -p ../runs/$run
 	        cd ../runs/$run
@@ -26,17 +26,17 @@ do
 		ln -s ../../init/sounding/input_sounding$W$R input_sounding
 		ln -s ../../init/surface/input_tsk$R input_tsk
 		#link namelists
-	        ln -s ../../init/namelist/namelist.inputF${i}spinup namelist.input
+	        ln -s ../../init/namelist/namelist.inputF${i}Tspinup namelist.input
 		
 		#create slurm script and run
 		SLURMFILE="$run.sh"
 		/bin/cat <<EOF >$SLURMFILE
 #!/bin/bash
-#SBATCH -t 23:00:00
+#SBATCH -t 30:00:00
 #SBATCH --mem-per-cpu=4000M
 #SBATCH --nodes=1
 #SBATCH --ntasks=31
-#SBATCH --account=def-rstull
+#SBATCH --account=rrg-rstull
 #SBATCH --job-name=$run
 #SBATCH --output=%x-%j.out
 
@@ -46,11 +46,11 @@ module load wrf-fire-1tracer
 mpirun -np 1 ideal.exe
 srun wrf.exe
 mv wrfout_* ../../complete/spinup/wrfout_$run
-mv wrfrst_d01_0000-08-01_12:30:00 ../../restart/wrfrst_d01_0000-08-01_12:30:00_${W}F$i$R
+mv wrfrst_d01_0000-08-01_12:30:00 ../../restart/wrfrst_d01_0000-08-01_12:30:00_${W}F$i${R}T
 EOF
 	else
 	
-              	run=${W}F$i$R
+              	run=$W$F${R}L${i}
 	        echo ".....creating a run folder $run"
 		mkdir -p ../runs/$run
 		cd ../runs/$run
@@ -59,19 +59,20 @@ EOF
 		fi
 
 		#link restart file
-	        ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_${W}F$i$R wrfrst_d01_0000-08-01_12:30:00
-	        #link namelists
-	        ln -s ../../init/namelist/namelist.inputF$i namelist.input
+	        #ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_$W$F${R}L$i wrfrst_d01_0000-08-01_12:30:00
+	        ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_$W$F${R} wrfrst_d01_0000-08-01_12:30:00
+	       	#link namelists
+	        ln -s ../../init/namelist/namelist.input${F}L$i namelist.input
 
                 #create slurm script and run
                 SLURMFILE="$run.sh"
                 /bin/cat <<EOF >$SLURMFILE
 #!/bin/bash
-#SBATCH -t 10:00:00
+#SBATCH -t 12:00:00
 #SBATCH --mem-per-cpu=4000M
 #SBATCH --nodes=1
 #SBATCH --ntasks=31
-#SBATCH --account=def-rstull
+#SBATCH --account=rrg-rstull
 #SBATCH --job-name=$run
 #SBATCH --output=%x-%j.out
 
