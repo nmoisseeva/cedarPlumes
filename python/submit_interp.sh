@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #for Case in $( ls -p ../complete/. | grep -v / )
-for Case in $( ls ../complete/*W4F7R4L4 )
+for Case in $( ls ../complete/*W5F13R5T )
 do
 	tag=${Case:19}
 	echo $tag
@@ -12,7 +12,7 @@ do
 #SBATCH -t 01:40:00
 #SBATCH --mem-per-cpu=128000M
 #SBATCH -n 1
-#SBATCH --account=def-rstull
+#SBATCH --account=rrg-rstull
 #SBATCH --job-name=$tag
 #SBATCH --output=%x.out
 
