@@ -1,9 +1,9 @@
 #!/bin/bash
 #=======input==========
-Floop=(4 7 13)
-R=R5
-W=W5
-spinup=true
+Floop=(7)
+R=R6
+W=W9
+spinup=false
 #======end of input====
 
 current=$(pwd)
@@ -32,11 +32,11 @@ do
 		SLURMFILE="$run.sh"
 		/bin/cat <<EOF >$SLURMFILE
 #!/bin/bash
-#SBATCH -t 30:00:00
-#SBATCH --mem-per-cpu=4000M
+#SBATCH -t 20:00:00
+#SBATCH --mem-per-cpu=3000M
 #SBATCH --nodes=1
-#SBATCH --ntasks=31
-#SBATCH --account=rrg-rstull
+#SBATCH --ntasks=47
+#SBATCH --account=def-rstull
 #SBATCH --job-name=$run
 #SBATCH --output=%x-%j.out
 
@@ -50,8 +50,8 @@ mv wrfrst_d01_0000-08-01_12:30:00 ../../restart/wrfrst_d01_0000-08-01_12:30:00_$
 EOF
 	else
 	
-              	run=$W$F${R}L${i}
-	        echo ".....creating a run folder $run"
+              	run=${W}F$i${R}T
+		echo ".....creating a run folder $run"
 		mkdir -p ../runs/$run
 		cd ../runs/$run
 		if [ "$(ls -A)" ]; then
@@ -60,19 +60,19 @@ EOF
 
 		#link restart file
 	        #ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_$W$F${R}L$i wrfrst_d01_0000-08-01_12:30:00
-	        ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_$W$F${R} wrfrst_d01_0000-08-01_12:30:00
+	        ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_${W}F$i${R}T wrfrst_d01_0000-08-01_12:30:00
 	       	#link namelists
-	        ln -s ../../init/namelist/namelist.input${F}L$i namelist.input
+	        ln -s ../../init/namelist/namelist.inputF${i}T namelist.input
 
                 #create slurm script and run
                 SLURMFILE="$run.sh"
                 /bin/cat <<EOF >$SLURMFILE
 #!/bin/bash
-#SBATCH -t 12:00:00
-#SBATCH --mem-per-cpu=4000M
+#SBATCH -t 10:00:00
+#SBATCH --mem-per-cpu=3000M
 #SBATCH --nodes=1
-#SBATCH --ntasks=31
-#SBATCH --account=rrg-rstull
+#SBATCH --ntasks=48
+#SBATCH --account=def-rstull
 #SBATCH --job-name=$run
 #SBATCH --output=%x-%j.out
 
