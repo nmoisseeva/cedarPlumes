@@ -2,8 +2,8 @@ import numpy as np
 
 #tsk_loop = [300,290,295,297,293]
 #tsk_name = ['R0','R1','R2','R3','R4']
-tsk_loop = [299]
-tsk_name = ['R5']
+tsk_loop = [291]
+tsk_name = ['R7T']
 
 for nTsk, Tsk in enumerate(tsk_loop):
 

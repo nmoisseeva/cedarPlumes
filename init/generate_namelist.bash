@@ -1,9 +1,9 @@
 #!/bin/bash
 #=======input==========
 InputFile=namelist.input
-Spinup=""
+Spinup="TE"
 EditVal="fire_fuel_cat      = "
-LoopVar=(1 2 3 4 5 6 8 9 10 11 12 13)
+LoopVar=(2 3 5)
 BaseVal=7
 #======end of input====
 

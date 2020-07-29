@@ -1,10 +1,10 @@
 #!/bin/bash
 #=======input==========
 InputFile=input_sounding
-BaseVal=3.00
-LoopVar=(4 5 6 7 8 9 10 11 12)
-W=W3
-R=R4
+BaseVal=5.00
+LoopVar=(3 4 6 7 8 9 10 11 12)
+W=W5
+R=R7T
 #======end of input====
 
 current=$(pwd)

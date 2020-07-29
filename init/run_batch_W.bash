@@ -1,10 +1,11 @@
 #!/bin/bash
 #=======input==========
 F=F7
-R=R0
-Wloop=(3 4 6 7 8 9 10 11)
+R=Rtest
+Wloop=(5)
 #Wloop=(12)
 spinup=false
+tall=true
 #======end of input====
 
 current=$(pwd)
@@ -26,17 +27,22 @@ do
 		ln -s ../../init/landuse/LANDUSE.TBL_$F LANDUSE.TBL
 		ln -s ../../init/sounding/input_soundingW$i$R input_sounding
 		ln -s ../../init/surface/input_tsk$R input_tsk
-		#link namelists
-	        ln -s ../../init/namelist/namelist.input${F}spinup namelist.input
 		
+		#link namelists
+		if $tall; then
+	        	ln -s ../../init/namelist/namelist.input${F}Tspinup namelist.input
+		else
+			ln -s ../../init/namelist/namelist.input${F}spinup namelist.input
+		fi
+
 		#create slurm script and run
 		SLURMFILE="$run.sh"
 		/bin/cat <<EOF >$SLURMFILE
 #!/bin/bash
 #SBATCH -t 23:00:00
-#SBATCH --mem-per-cpu=4000M
+#SBATCH --mem-per-cpu=3000M
 #SBATCH --nodes=1
-#SBATCH --ntasks=31
+#SBATCH --ntasks=48
 #SBATCH --account=def-rstull
 #SBATCH --job-name=$run
 #SBATCH --output=%x-%j.out
@@ -60,19 +66,23 @@ EOF
 		fi
 
 		#link restart file
-	        ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_W${i}$F$R wrfrst_d01_0000-08-01_12:30:00
+	        ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_W${i}$F${R%*E} wrfrst_d01_0000-08-01_12:30:00
 	        #link namelists
-	        ln -s ../../init/namelist/namelist.input$F namelist.input
+		if $tall; then
+			ln -s ../../init/namelist/namelist.input${F}T namelist.input
+		else
+			ln -s ../../init/namelist/namelist.input$F namelist.input
+		 fi
 
                 #create slurm script and run
                 SLURMFILE="$run.sh"
                 /bin/cat <<EOF >$SLURMFILE
 #!/bin/bash
 #SBATCH -t 10:00:00
-#SBATCH --mem-per-cpu=4000M
+#SBATCH --mem-per-cpu=3000M
 #SBATCH --nodes=1
-#SBATCH --ntasks=31
-#SBATCH --account=rrg-rstull
+#SBATCH --ntasks=48
+#SBATCH --account=def-rstull
 #SBATCH --job-name=$run
 #SBATCH --output=%x-%j.out
 

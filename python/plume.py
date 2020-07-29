@@ -9,7 +9,7 @@ import glob
 #--------------------------------
 wrfdir = '../complete/'
 figdir = './figs/'
-lvl = np.arange(0,2800,40)         #vertical levels in m
+lvl = np.arange(0,3201,40)         #vertical levels in m
 dx = 40.                        #horizontal grid spacing
 
 cs = 10                         #+/- grids for cross-section
