@@ -1,9 +1,11 @@
 #!/bin/bash
 #=======input==========
-Floop=(1 2 3 4 5 6 7 8 9 10 11 12 13)
+Floop=(7)
+#Floop=(1 2 3 4 5 6 7 8 9 10 11 12 13)
 R=R7T
 W=W5
 spinup=false
+tag=M
 #======end of input====
 
 current=$(pwd)
@@ -13,7 +15,7 @@ do
 	echo "--FUEL RUN: $i"
 	#link main executables
 	if $spinup; then
-	        run=${W}F$i${R}spinup
+	        run=${W}F$i$R${tag}spinup
 	        echo ".....creating a run folder $run"
 	        mkdir -p ../runs/$run
 	        cd ../runs/$run
@@ -23,7 +25,7 @@ do
 
 		#link surface and sounding
 		ln -s ../../init/landuse/LANDUSE.TBL_F$i LANDUSE.TBL
-		ln -s ../../init/sounding/input_sounding$W$R input_sounding
+		ln -s ../../init/sounding/input_sounding$W$R$tag input_sounding
 		ln -s ../../init/surface/input_tsk$R input_tsk
 		#link namelists
 	        ln -s ../../init/namelist/namelist.inputF${i}Tspinup namelist.input
@@ -46,11 +48,11 @@ module load wrf-fire-1tracer
 mpirun -np 1 ideal.exe
 srun wrf.exe
 mv wrfout_* ../../complete/spinup/wrfout_$run
-mv wrfrst_d01_0000-08-01_12:30:00 ../../restart/wrfrst_d01_0000-08-01_12:30:00_${W}F$i$R
+mv wrfrst_d01_0000-08-01_12:30:00 ../../restart/wrfrst_d01_0000-08-01_12:30:00_${W}F$i$R$tag
 EOF
 	else
 	
-              	run=${W}F$i$R
+              	run=${W}F$i$R$tag
 		echo ".....creating a run folder $run"
 		mkdir -p ../runs/$run
 		cd ../runs/$run
@@ -60,7 +62,8 @@ EOF
 
 		#link restart file
 	        #ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_$W$F${R}L$i wrfrst_d01_0000-08-01_12:30:00
-	        ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_${run%*E} wrfrst_d01_0000-08-01_12:30:00
+	        #ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_${run%*E} wrfrst_d01_0000-08-01_12:30:00
+		ln -s ../../restart/wrfrst_d01_0000-08-01_12:30:00_${run} wrfrst_d01_0000-08-01_12:30:00
 	       	#link namelists
 	        ln -s ../../init/namelist/namelist.inputF${i}T namelist.input
 

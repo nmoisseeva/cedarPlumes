@@ -7,4 +7,5 @@
 #SBATCH --output=rclone.out
 
 
-/home/moisseev/apps/bin/rclone copy -v /home/moisseev/projects/rrg-rstull/moisseev/plume/aug2019 gcloudteam:main/aug2019
+#/home/moisseev/apps/bin/rclone copy -v /home/moisseev/projects/rrg-rstull/moisseev/plume/aug2019/complete/wrfout* gcloudteam:main/aug2019/complete
+/home/moisseev/apps/bin/rclone copy -v -L /home/moisseev/projects/rrg-rstull/moisseev/plume/synthetic_plume_data gcloudteam:synthetic_plume_data
