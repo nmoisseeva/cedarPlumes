@@ -21,9 +21,17 @@ git clone https://github.com/openwfm/WRF-SFIRE.git
     export NETCDF=/cvmfs/soft.computecanada.ca/easybuild/software/2017/avx2/Compiler/intel2019/netcdf-fortran/4.4.5/
     ``
 * load required compiles 
-    - e.g. my current installation requires
-    ```bash
-    module load intel
-    module load openmpi
-    ```
+    - e.g. my loaded modules incuded (output of `module list`)
+```
+Currently Loaded Modules:
+  1) nixpkgs/16.09   (S)      3) gcccore/.5.4.0  (H)   5) ifort/.2016.4.258 (H)   7) openmpi/2.1.1 (m)
+  2) imkl/11.3.4.258 (math)   4) icc/.2016.4.258 (H)   6) intel/2016.4      (t)   8) StdEnv/2016.4 (S)
+
+  Where:
+   S:     Module is Sticky, requires --force to unload or purge
+   m:     MPI implementations / Implémentations MPI
+   math:  Mathematical libraries / Bibliothèques mathématiques
+   t:     Tools for development / Outils de développement
+   H:                Hidden Module
+```
     
