@@ -13,7 +13,7 @@ The methodology (and condition settings) are detailed in:
 ### 1. Ensure you have a working copy of WRF-SFIRE code on Cedar. 
 
 ### 2. Run a spinup simulation: 
-* cd to <spinup_run>
+* cd to `spinup_run`
 * ensure all initalization files are in place, including:
 	- `namelist.input` - main configuration file (see WRF-SFIRE documentation for details)
 	- `input_sounding` - sounding file, including temperature and wind profiles (see WRF documentation)
