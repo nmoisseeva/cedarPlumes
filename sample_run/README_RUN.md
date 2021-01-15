@@ -8,14 +8,14 @@ This is a quick summary of how to run WRF-SFIRE LES using the sample initalizati
 
 The included files are for a case study *W9F7R7T*. 
 The methodology (and condition settings) are detailed in:
-- Chapter 4 of https://open.library.ubc.ca/cIRcle/collections/ubctheses/24/items/1.0395299
-- (brief journal summary)  https://doi.org/10.5194/acp-2020-827
+* Chapter 4 of https://open.library.ubc.ca/cIRcle/collections/ubctheses/24/items/1.0395299
+* (brief journal summary)  https://doi.org/10.5194/acp-2020-827
 
 #1. Ensure you have a working copy of WRF-SFIRE code on Cedar. 
 
 #2. Run a spinup simulation:
-	- cd to 'spinup_run'
-	- ensure all initalization files are in place, including:
+	* cd to '<spinup_run>'
+	* ensure all initalization files are in place, including:
 		-namelist.input - main configuration file (see WRF-SFIRE documentation for details)
 		-input_sounding - sounding file, including temperature and wind profiles (see WRF documentation)
 		-namelist.fire - fuel category settings (this model uses Anderson fuel categories)
