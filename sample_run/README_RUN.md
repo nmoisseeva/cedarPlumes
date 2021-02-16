@@ -25,7 +25,7 @@ The methodology (and condition settings) are detailed in:
 * submit to slurm (run `sbatch submit_to_slurm_spinup.sh` in command line)
 
 ### 3. Run the main fire simulation:
-*  Once the spinup simulation is complete, it should generate a wrf restart file (wrfrst*) in `spinup_run`. Create a symbolic link to this file within the `fire_run` subdirectory. 
+*  Once the spinup simulation is complete, it should generate a wrf restart file (wrfrst\*) in `spinup_run`. Create a symbolic link to this file within the `fire_run` subdirectory. 
 * in `fire_run` subdirectory ensure all initialization filres are in place, including:
 	- `namelist.input`
 	- `namelist.fire`
