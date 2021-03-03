@@ -21,16 +21,16 @@ The methodology (and condition settings) are detailed in:
 	- `namelist.fire_emissions` - emission factors for each tracer (currently 1), for each fuel category
 	- `input_tsk` - perturbed surface temperature field (used to kick-off convection, without adding "bubble" perturbation)
 	- `LANDUSE.TBL` - surface initalization settings (roughness length etc) 
-* in `submit_to_slurm_spinup.sh` ensure wrf-sfire module name is consistent with your installation (currently called wrf-fire-1tracer)
+* in `submit_to_slurm_spinup.sh` ensure wrf-sfire call is consistent with your installation (sample shown is for a local modules intsall  wrf-fire-1tracer)
 * submit to slurm (run `sbatch submit_to_slurm_spinup.sh` in command line)
 
 ### 3. Run the main fire simulation:
 *  Once the spinup simulation is complete, it should generate a wrf restart file (wrfrst\*) in `spinup_run`. Create a symbolic link to this file within the `fire_run` subdirectory. 
-* in `fire_run` subdirectory ensure all initialization filres are in place, including:
+* in `fire_run` subdirectory ensure all initialization fires are in place, including:
 	- `namelist.input`
 	- `namelist.fire`
 	- `namelist.fire_emissions`
-* in `submit_to_slurm_fire.sh` ensure wrf-sifre module name is consistent with your installation (currently called wrf-fire-1tracer) 
+* in `submit_to_slurm_fire.sh` ensure wrf-sifre call is consistent with your installation (currently using a local modules install wrf-fire-1tracer) 
 * submit to slurm (run `sbatch submit_to_slurm_fire.sh` in command line)
 
 
